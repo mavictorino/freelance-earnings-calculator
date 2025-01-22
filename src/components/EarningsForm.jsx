@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 const EarningsForm = ({ onSaveEarnings }) => {
     const [hourlyRate, setHourlyRate] = useState("");
