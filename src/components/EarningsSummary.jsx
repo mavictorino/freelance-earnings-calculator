@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../services/firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { fetchEarningsFromFirestore } from "../services/firestoreUtils";
 
 const EarningsSummary = () => {
     const [earnings, setEarnings] = useState([]);
     const [error, setError] = useState("");
 
     useEffect(() => {
-        const fetchEarnings = async () => {
+        const fetchData = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "earnings"));
-                const data = querySnapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                setEarnings(data);
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-                setError("Failed to fetch earnings data");
+                const earningsData = await fetchEarningsFromFirestore();
+                setEarnings(earningsData);
+            } catch (err) {
+                console.error(err);
             }
         };
 
-        fetchEarnings();
+        fetchData();
     }, []);
 
     return (

@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchEarningsFromFirestore } from "../services/firestoreUtils";
 import EarningsForm from "./EarningsForm";
 import EarningsSummary from "./EarningsSummary";
 
 const Dashboard = () => {
     const [earnings, setEarnings] = useState([]);
 
-    const handleSaveEarnings = (newEarning) => {
-        setEarnings((prev) => [...prev, newEarning]); 
+    const fetchEarnings = async () => {
+        try {
+            const earningsData = await fetchEarningsFromFirestore();
+            setEarnings(earningsData);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchEarnings();
+    }, []);
+
+    const handleSaveEarnings = async (newEarning) => {
+        fetchEarnings();
     };
 
     return (
@@ -17,9 +31,9 @@ const Dashboard = () => {
             <div>
                 <h3>Daily Earnings Log:</h3>
                 <ul>
-                    {earnings.map((earning, index) => (
-                        <li>
-                            {earning.date}: ${earning.dailyEarnings.toFixed(2)} (Rate: ${earning.hourlyRate}/hr, Hours: {earning.hoursWorked})
+                    {earnings.map((earning) => (
+                        <li key={earning.id}>
+                            {earning.date}: ${Number(earning.dailyEarnings || 0).toFixed(2)} (Rate: ${earning.hourlyRate}/hr, Hours: {earning.hoursWorked})
                         </li>
                     ))}
                 </ul>
