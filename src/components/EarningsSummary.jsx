@@ -1,34 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { db } from "../services/firebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
 
-const EarningsSummary = ({ earnings }) => {
-    const calculateTotal = (timeFrame) => {
-        const now = new Date();
+const EarningsSummary = () => {
+    const [earnings, setEarnings] = useState([]);
+    const [error, setError] = useState("");
 
-        return earnings
-        .filter(({ date }) => {
-            const earningDate = new Date(date);
-            if (timeFrame === "week") {
-                const weekAgo = new Date();
-                weekAgo.setDate(now.getDate() - 7);
-                return earningDate >= weekAgo && earningDate <= now;
+    useEffect(() => {
+        const fetchEarnings = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "earnings"));
+                const data = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                setEarnings(data);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+                setError("Failed to fetch earnings data");
             }
-            if (timeFrame === "month") {
-                return earningDate.getMonth() === now.getMonth() && earningDate.getFullYear() === now.getFullYear();
-            }
-            return false;
-        })
-        .reduce((total, { dailyEarnings }) => total + dailyEarnings, 0)
-        .toFixed(2);
-    };
+        };
+
+        fetchEarnings();
+    }, []);
 
     return (
         <div>
             <h2>Earnings Summary</h2>
-            <p>Weekly Earnings:${calculateTotal("week")}</p>
-            <p>Monthly Earnings:${calculateTotal("month")}</p>
-            
+            {error && <p>{error}</p>}
+            {earnings.length === 0 ? (
+                <p>No earnings data available</p>
+            ) : (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Hourly Rate</th>
+                            <th>Hours Worked</th>
+                            <th>Daily Earnings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {earnings.map((entry) => (
+                            <tr key={entry.id}>
+                                <td>{entry.date}</td>
+                                <td>{entry.hourlyRate}</td>
+                                <td>{entry.hoursWorked}</td>
+                                <td>{entry.dailyEarnings}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
+
 };
+
 
 export default EarningsSummary;
