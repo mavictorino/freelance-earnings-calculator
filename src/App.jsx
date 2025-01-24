@@ -1,10 +1,10 @@
 import React from "react";
-import TestEarningsForm from "./components/TestEarningsForm";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
     <div>
-      <TestEarningsForm />
+      <Dashboard />
     </div>
   );
 }
