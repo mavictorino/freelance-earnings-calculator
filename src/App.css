@@ -24,6 +24,16 @@
     margin-bottom: 20px;
 }
 
+.form-field {
+    padding: 5px;
+}
+
+.submit-button {
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+}
+
 .earnings-container {
     display: flex;
     justify-content: center; 

@@ -71,7 +71,7 @@ const EarningsForm = ({ onSaveEarnings }) => {
   return (
     <form onSubmit={handleSubmit}>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <div>
+      <div className="form-field">
         <label htmlFor="hourlyRate">Hourly Rate:</label>
         <Input
           type="text"
@@ -81,7 +81,7 @@ const EarningsForm = ({ onSaveEarnings }) => {
           onChange={handleChange}
         />
       </div>
-      <div>
+      <div className="form-field">
         <label htmlFor="hoursWorked">Hours Worked:</label>
         <Input
           type="text"
@@ -91,7 +91,7 @@ const EarningsForm = ({ onSaveEarnings }) => {
           onChange={handleChange}
         />
       </div>
-      <div>
+      <div className="form-field">
         <label htmlFor="date">Date:</label>
         <DatePicker
           value={formData.date ? moment(formData.date) : null} 
@@ -99,7 +99,9 @@ const EarningsForm = ({ onSaveEarnings }) => {
           format="YYYY-MM-DD"
         />
       </div>
+      <div className="submit-button">
       <Button type="primary" htmlType="submit">Save Earnings</Button>
+      </div>
     </form>
   );
 };
