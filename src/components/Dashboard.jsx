@@ -24,19 +24,24 @@ const Dashboard = () => {
     };
 
     return (
-        <div>
-            <h1>Freelance Earnings Calculator</h1>
-            <EarningsForm onSaveEarnings={handleSaveEarnings} />
-            <EarningsSummary earnings={earnings} />
-            <div>
-                <h3>Daily Earnings Log:</h3>
-                <ul>
-                    {earnings.map((earning) => (
-                        <li key={earning.id}>
-                            {earning.date}: ${Number(earning.dailyEarnings || 0).toFixed(2)} (Rate: ${earning.hourlyRate}/hr, Hours: {earning.hoursWorked})
-                        </li>
-                    ))}
-                </ul>
+        <div className="dashboard-container">
+            <h1 className="title">Freelance Earnings Calculator</h1>
+            <div className="form-container">
+                <EarningsForm onSaveEarnings={handleSaveEarnings} />
+            </div>
+
+            <div className="earnings-container">
+                <EarningsSummary earnings={earnings} />
+                <div className="daily-earnings">
+                    <h3>Daily Earnings Log:</h3>
+                    <ul>
+                        {earnings.map((earning) => (
+                            <li key={earning.id}>
+                                {earning.date}: ${Number(earning.dailyEarnings || 0).toFixed(2)} (Rate: ${earning.hourlyRate}/hr, Hours: {earning.hoursWorked})
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     );

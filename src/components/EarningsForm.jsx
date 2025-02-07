@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { db } from "../services/firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
+import { DatePicker, Input, Button, message } from "antd";
+import moment from "moment";
 
 const EarningsForm = ({ onSaveEarnings }) => {
   const [formData, setFormData] = useState({
     hourlyRate: "",
     hoursWorked: "",
-    date: "",
+    date: null,
   });
 
   const [error, setError] = useState("");
@@ -15,6 +17,13 @@ const EarningsForm = ({ onSaveEarnings }) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleDateChange = (date) => {
+    setFormData({
+      ...formData,
+      date: date ? date.format("YYYY-MM-DD") : null, 
     });
   };
 
@@ -49,9 +58,10 @@ const EarningsForm = ({ onSaveEarnings }) => {
       });
       console.log("Document written with ID: ", docRef.id);
 
-      // Reset form
-      setFormData({ hourlyRate: "", hoursWorked: "", date: "" });
+      // reset form
+      setFormData({ hourlyRate: "", hoursWorked: "", date: null });
       setError("");
+      message.success("Earnings saved!")
     } catch (err) {
       console.error("Error adding document: ", err);
       setError("Failed to save data, please try again.");
@@ -63,7 +73,7 @@ const EarningsForm = ({ onSaveEarnings }) => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       <div>
         <label htmlFor="hourlyRate">Hourly Rate:</label>
-        <input
+        <Input
           type="text"
           id="hourlyRate"
           name="hourlyRate"
@@ -73,7 +83,7 @@ const EarningsForm = ({ onSaveEarnings }) => {
       </div>
       <div>
         <label htmlFor="hoursWorked">Hours Worked:</label>
-        <input
+        <Input
           type="text"
           id="hoursWorked"
           name="hoursWorked"
@@ -83,15 +93,13 @@ const EarningsForm = ({ onSaveEarnings }) => {
       </div>
       <div>
         <label htmlFor="date">Date:</label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
+        <DatePicker
+          value={formData.date ? moment(formData.date) : null} 
+          onChange={handleDateChange}
+          format="YYYY-MM-DD"
         />
       </div>
-      <button type="submit">Save Earnings</button>
+      <Button type="primary" htmlType="submit">Save Earnings</Button>
     </form>
   );
 };

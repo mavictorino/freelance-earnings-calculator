@@ -25,7 +25,7 @@ const EarningsSummary = () => {
             {earnings.length === 0 ? (
                 <p>No earnings data available</p>
             ) : (
-                <table>
+                <table id="earnings-details">
                     <thead>
                         <tr>
                             <th>Date</th>
