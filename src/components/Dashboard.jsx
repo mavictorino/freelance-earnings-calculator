@@ -33,10 +33,10 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <h1 className="title">Keep your earnings on track!</h1>
+      <h1 className="title">🎯 Keep your earnings on track!</h1>
 
       <div className="summary">
-        <h3>Summary</h3>
+        <h3>📝 Summary</h3>
         <p>
           Total Earnings: $
           {earnings.length > 0
@@ -67,7 +67,7 @@ const Dashboard = () => {
       </div>
 
       <div className="latest-entries">
-        <h3>Latest Entries</h3>
+        <h3>🆕 Latest Entries</h3>
         <div className="latest-entries-cards">
           {earnings.slice(0, 3).map((earning) => (
             <Card key={earning.id} className="entry-card">

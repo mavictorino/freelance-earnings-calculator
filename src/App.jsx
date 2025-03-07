@@ -4,6 +4,7 @@ import Dashboard from "./components/Dashboard";
 import EarningsList from "./pages/EarningsList";
 import Navbar from "./components/Navbar";
 import "./App.css";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/earnings" element={<EarningsList />} />
-         
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );
