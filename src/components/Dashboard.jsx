@@ -33,7 +33,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <h1 className="title">Freelance Earnings Calculator</h1>
+      <h1 className="title">Keep your earnings on track!</h1>
 
       <div className="summary">
         <h3>Summary</h3>
