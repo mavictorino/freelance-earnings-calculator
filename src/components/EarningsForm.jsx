@@ -92,7 +92,7 @@ const EarningsForm = ({ onSaveEarnings }) => {
         />
       </div>
       <div className="form-field">
-        <label htmlFor="date">Date:</label>
+        <label htmlFor="date">Date: </label>
         <DatePicker
           value={formData.date ? moment(formData.date) : null} 
           onChange={handleDateChange}
